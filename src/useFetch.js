@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Paginate from "./Pagination";
 const url = "https://api.github.com/users/john-smilga/followers?per_page=100";
 
-const useFetch = () => {
+export const useFetch = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
@@ -14,12 +14,12 @@ const useFetch = () => {
         throw new Error("failed to fetch");
       }
       const data = await response.json();
+      setLoading(false);
       setData(Paginate(data));
-      console.log(Paginate(data));
     } catch (err) {
+      setLoading(false);
       console.log(err.message);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -27,5 +27,3 @@ const useFetch = () => {
   }, []);
   return { data, loading };
 };
-
-export default useFetch;
